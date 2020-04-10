@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--和接口路径和名称保持一致，MyBatis会自动帮我们找到这个 Mapper-->
+<mapper namespace="com.chp.mybatis.mapper.UserMapper">
+    <!-- id与接口方法名一致
+        parameterType参数类型与接口方法参数类型一致
+        resultType返回值类型与接口方法一致
+        'user'为mybatis-config.xml中定义的别名 -->
+    <select id="getUser" parameterType="long" resultType="user">
+        <![CDATA[
+            select * from user where id=#{id}
+        ]]>
+    </select>
+
+    <insert id="createUser" parameterType="user">
+        <![CDATA[
+            insert into user (name,pwd)values (#{name},#{pwd})
+        ]]>
+    </insert>
+
+    <update id="updateUser">
+        <![CDATA[
+            update user set name =#{name,jdbcType=VARCHAR} where id=#{id,jdbcType=BIGINT}
+        ]]>
+    </update>
+
+    <delete id="deleteUser" parameterType="long">
+            delete from user where id=#{id}
+    </delete>
+</mapper>
