@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- configuration核心配置文件 -->
+<configuration>
+
+    <properties resource="db.properties"/>
+    <typeAliases>
+        <!--给实体类起一个别名 role -->
+        <typeAlias type="com.chp.mybatis.pojo.Role" alias="role" />
+        <typeAlias type="com.chp.mybatis.pojo.Student" alias="student" />
+    </typeAliases>
+
+    <typeHandlers>
+        <typeHandler javaType="Boolean" jdbcType="VARCHAR" handler="com.chp.mybatis.typehandler.BooleanTypeHandler" />
+    </typeHandlers>
+
+    <!--数据源配置 -->
+    <environments default="development">
+        <environment id="development">
+            <!-- 采用JDBC事物管理器 -->
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!-- 每一个Mapper.xml都需要在mybatis核心配置文件中注测 -->
+    <mappers>
+        <mapper resource="com/chp/mybatis/mapper/RoleMapper.xml"></mapper>
+        <mapper resource="com/chp/mybatis/mapper/StudentMapper.xml"></mapper>
+    </mappers>
+</configuration>

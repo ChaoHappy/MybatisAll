@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--和接口路径和名称保持一致，MyBatis会自动帮我们找到这个 Mapper-->
+<mapper namespace="com.chp.mybatis.mapper.StudentMapper">
+    <resultMap id="studentList" type="student">
+        <id column="id" property="id"></id>
+        <result column="cnname" property="cnname"></result>
+        <result column="sex" property="sex" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
+        <result column="selfcard_no" property="selfcardNo"></result>
+        <result column="note" property="note" typeHandler="org.apache.ibatis.type.EnumTypeHandler"></result>
+    </resultMap>
+    
+    <select id="getAllStudent" resultMap="studentList" >
+        <![CDATA[
+            select * from t_student
+        ]]>
+    </select>
+
+    <insert id="createStudent" parameterType="student">
+        <![CDATA[
+            insert into t_student(cnname,sex,selfcard_no,note)
+            values (#{cnname},#{sex,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},#{selfcardNo},
+            #{note,typeHandler=org.apache.ibatis.type.EnumTypeHandler})
+        ]]>
+    </insert>
+</mapper>
