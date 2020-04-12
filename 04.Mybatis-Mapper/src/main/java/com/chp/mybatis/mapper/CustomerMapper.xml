@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--和接口路径和名称保持一致，MyBatis会自动帮我们找到这个 Mapper-->
+<mapper namespace="com.chp.mybatis.mapper.CustomerMapper">
+
+    <resultMap id="customerList" type="customer">
+        <id column="id" property="id" />
+        <result column="cus_name" property="cusName" />
+        <result column="age" property="age" />
+        <result column="cus_no" property="cusNo" />
+    </resultMap>
+
+    <select id="getCustomer" parameterType="Long" resultType="customer">
+        <![CDATA[
+            select * from t_customer where id=#{id}
+        ]]>
+    </select>
+
+    <select id="getCustomerByMap" resultMap="customerList">
+        <![CDATA[
+            select * from t_customer where cus_name like concat('%',#{cusName},'%') AND cus_no like concat('%',#{cusNo},'%')
+        ]]>
+    </select>
+
+    <select id="getCustomerByAnn" resultMap="customerList">
+        <![CDATA[
+            select * from t_customer where cus_name like concat('%',#{cusName},'%') AND cus_no like concat('%',#{cusNo},'%')
+        ]]>
+    </select>
+
+
+    <select id="getCustomerByBean" resultMap="customerList">
+        <![CDATA[
+            select * from t_customer where cus_name like concat('%',#{cusName},'%') AND cus_no like concat('%',#{cusNo},'%')
+        ]]>
+    </select>
+
+    <insert id="createCustomer" parameterType="customer" useGeneratedKeys="true" keyProperty="id">
+         <![CDATA[
+            insert into t_customer (cus_name,age,cus_no) values (#{cusName},#{age},#{cusNo})
+        ]]>
+    </insert>
+    
+    
+    <update id="updateCustomer" parameterType="customer">
+        <![CDATA[
+            update t_customer set cus_name = #{cusName} where id=#{id}
+        ]]>
+    </update>
+    <delete id="deleteCustomer" parameterType="Long">
+        <![CDATA[
+            delete from t_customer where id=#{id}
+        ]]>
+    </delete>
+
+
+    <sql id="t_customer_column">
+         <![CDATA[
+            id,cus_name
+        ]]>
+    </sql>
+    
+    <select id="getCustomerBySql" parameterType="Long" resultType="customer">
+        select
+            <include refid="t_customer_column"/>
+        from t_customer where id=#{id}
+    </select>
+
+
+    <sql id="t_customer_prefix_column">
+         <![CDATA[
+            ${prefix}.id,${prefix}.cus_name
+        ]]>
+    </sql>
+    <select id="getCustomerByPrefixSql" parameterType="Long" resultType="customer">
+        select
+            <include refid="t_customer_prefix_column">
+                <property name="prefix" value="t"/>
+            </include>
+        from t_customer t where t.id=#{id}
+    </select>
+</mapper>
